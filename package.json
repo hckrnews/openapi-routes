@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "description": "OpenAPI routes",
     "files": [
-        "src/apijs",
+        "src/api.js",
         "dist/api.js",
         "dist/api.js.map",
         "dist/api.module.js",
