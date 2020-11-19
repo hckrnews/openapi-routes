@@ -1,4 +1,4 @@
 export default {
-  test () {},
-  notFound () {}
-}
+    test() {},
+    notFound() {},
+};
