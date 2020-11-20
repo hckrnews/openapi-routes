@@ -1,6 +1,6 @@
 {
     "name": "@hckrnews/openapi-routes",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "OpenAPI routes",
     "files": [
         "src/api.js",
@@ -29,6 +29,9 @@
         "type": "git",
         "url": "https://github.com/hckrnews/openapi-routes.git"
     },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
     "keywords": [
         "javascript",
         "express",
@@ -41,7 +44,7 @@
     "bugs": {
         "url": "https://github.com/hckrnews/openapi-routes/issues"
     },
-    "license": "GPL-3.0",
+    "license": "MIT",
     "homepage": "https://github.com/hckrnews/openapi-routes#readme",
     "scripts": {
         "build": "microbundle --target node",
