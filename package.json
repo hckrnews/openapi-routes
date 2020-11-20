@@ -1,0 +1,71 @@
+{
+    "name": "@hckrnews/openapi-routes",
+    "version": "0.1.0",
+    "description": "OpenAPI routes",
+    "files": [
+        "src/api.js",
+        "dist/api.js",
+        "dist/api.js.map",
+        "dist/api.module.js",
+        "dist/api.module.js.map",
+        "dist/api.modern.js",
+        "dist/api.modern.js.map",
+        "dist/api.umd.js",
+        "dist/api.umd.js.map"
+    ],
+    "source": "src/api.js",
+    "main": "dist/api.js",
+    "module": "dist/api.module.js",
+    "unpkg": "dist/api.umd.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hckrnews/openapi-routes.git"
+    },
+    "keywords": [
+        "javascript",
+        "express",
+        "callback"
+    ],
+    "author": {
+        "name": "Pieter Wigboldus",
+        "url": "https://hckr.news/"
+    },
+    "bugs": {
+        "url": "https://github.com/hckrnews/openapi-routes/issues"
+    },
+    "license": "GPL-3.0",
+    "homepage": "https://github.com/hckrnews/openapi-routes#readme",
+    "scripts": {
+        "build": "microbundle --target node",
+        "dev": "microbundle --target node watch",
+        "lint": "eslint src/*.js --config .eslintrc",
+        "test": "jest",
+        "coveralls": "jest && codecov && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.3",
+        "@babel/preset-env": "^7.12.1",
+        "@hckrnews/eslint-config": "^1.0.0",
+        "babel-eslint": "^10.1.0",
+        "babel-jest": "^26.6.3",
+        "codecov": "^3.8.1",
+        "coveralls": "^3.1.0",
+        "eslint": "^7.13.0",
+        "eslint-config-airbnb": "^18.2.1",
+        "eslint-config-prettier": "^6.15.0",
+        "eslint-plugin-html": "^6.1.1",
+        "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-prettier": "^3.1.4",
+        "eslint-plugin-react": "^7.21.5",
+        "eslint-plugin-vue": "^6.2.2",
+        "esm": "^3.2.25",
+        "jest": "^26.6.3",
+        "microbundle": "^0.12.3",
+        "prettier": "^2.1.2"
+    },
+    "type": "module",
+    "engines": {
+        "node": ">= 10.13"
+    }
+}
