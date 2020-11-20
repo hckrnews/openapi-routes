@@ -1,6 +1,6 @@
 {
     "name": "@hckrnews/openapi-routes",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "OpenAPI routes",
     "files": [
         "src/api.js",
@@ -16,7 +16,15 @@
     "source": "src/api.js",
     "main": "dist/api.js",
     "module": "dist/api.module.js",
+    "esmodule": "dist/api.modern.js",
     "unpkg": "dist/api.umd.js",
+    "umd:main": "dist/api.umd.js",
+    "exports": {
+        ".": {
+            "require": "./dist/api.js",
+            "default": "./dist/api.module.js"
+        }
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/hckrnews/openapi-routes.git"
