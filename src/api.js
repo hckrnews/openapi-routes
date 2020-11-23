@@ -50,9 +50,17 @@ class ApiRoutes {
      * @return {array}
      */
     get operationIds() {
-        return Object.values(this.specification.paths).map(
-            (path) => path.get.operationId
-        );
+        return Object.values(this.specification.paths).map((path) => {
+            if (path.get) {
+                return path.get.operationId;
+            }
+
+            if (path.post) {
+                return path.post.operationId;
+            }
+
+            return null;
+        });
     }
 
     /**

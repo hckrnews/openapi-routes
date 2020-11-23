@@ -1,8 +1,8 @@
-import { ApiRoutes } from '../api.js';
+import { ApiRoutes } from '../api';
 import OpenAPISpecification from '../__fixtures__/api-doc.json';
-import Backend from '../__mocks__/backend.js';
-import callback from '../__mocks__/callback.js';
-import controllers from '../__mocks__/controller.js';
+import Backend from '../__mocks__/backend';
+import callback from '../__mocks__/callback';
+import controllers from '../__mocks__/controller';
 
 describe('API route without security', () => {
     const actual = ApiRoutes.create({
@@ -18,7 +18,8 @@ describe('API route without security', () => {
     it('Test if the API route add all routes', () => {
         expect(actual.routes.map((route) => route.operationId)).toEqual([
             'getStatus',
-            'test',
+            'getTest',
+            'postTest',
             'notFound',
         ]);
     });
@@ -44,7 +45,8 @@ describe('API route with security', () => {
         expect(actual.routes.map((route) => route.operationId)).toEqual([
             'unauthorizedHandler',
             'getStatus',
-            'test',
+            'getTest',
+            'postTest',
             'notFound',
         ]);
     });
