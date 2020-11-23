@@ -53,7 +53,17 @@ class ApiRoutes {
 
 
   get operationIds() {
-    return Object.values(this.specification.paths).map(path => path.get.operationId);
+    return Object.values(this.specification.paths).map(path => {
+      if (path.get) {
+        return path.get.operationId;
+      }
+
+      if (path.post) {
+        return path.post.operationId;
+      }
+
+      return null;
+    });
   }
   /**
    * Register all operations to a controller.
@@ -67,7 +77,7 @@ class ApiRoutes {
       this.api.register(operationId, this.callback(this.controllers[operationId], this.specification, this.logger));
     });
 
-    if ((_this$controllers = this.controllers) == null ? void 0 : _this$controllers.notFound) {
+    if ((_this$controllers = this.controllers) != null && _this$controllers.notFound) {
       this.api.register('notFound', this.callback(this.controllers.notFound, this.specification, this.logger));
     }
 
