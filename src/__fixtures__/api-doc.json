@@ -55,13 +55,82 @@
           }
         }
       },
-      "/test/{item}": {
+      "/get-test/{item}": {
         "get": {
           "tags": [
             "Test"
           ],
-          "operationId": "test",
+          "operationId": "getTest",
           "summary": "Get the test",
+          "description": "The endpoint retrieves the current test by the given item.\n",
+          "parameters": [
+            {
+              "name": "item",
+              "description": "the specific test",
+              "in": "path",
+              "schema": {
+                "type": "string",
+                "example": "first"
+              },
+              "required": true
+            }
+          ],
+          "security": [
+            {
+              "apiKey": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "the test response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/test"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "the test response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/genericResponse"
+                  },
+                  "example": {
+                    "status": 401,
+                    "timestamp": "1970-01-01T01:01:01.000Z",
+                    "message": "Unauthorized"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "the test response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/genericResponse"
+                  },
+                  "example": {
+                    "status": 404,
+                    "timestamp": "1970-01-01T01:01:01.000Z",
+                    "message": "Test not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/post-test/{item}": {
+        "post": {
+          "tags": [
+            "Test"
+          ],
+          "operationId": "postTest",
+          "summary": "Post the test",
           "description": "The endpoint retrieves the current test by the given item.\n",
           "parameters": [
             {
