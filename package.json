@@ -1,6 +1,6 @@
 {
     "name": "@hckrnews/openapi-routes",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "description": "OpenAPI routes",
     "files": [
         "src/api.js",
