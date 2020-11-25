@@ -8,8 +8,9 @@ class ApiRoutes {
    * @param {object} OpenAPISpecification
    * @param {class} Backend
    * @param {function} callback
+   * @param {string} root
    */
-  constructor(OpenAPISpecification, Backend, callback) {
+  constructor(OpenAPISpecification, Backend, callback, root) {
     this.logger = null;
     this.specification = OpenAPISpecification;
     this.callback = callback;
@@ -17,7 +18,7 @@ class ApiRoutes {
     this.api = new Backend({
       // Use the first server url as api root.
       // @todo CDB2BGAZ-3755: Support multiple servers
-      apiRoot: OpenAPISpecification.servers[0].url,
+      apiRoot: root || OpenAPISpecification.servers[0].url,
       definition: OpenAPISpecification
     });
   }
@@ -99,6 +100,7 @@ class ApiRoutes {
    * @param {class} logger
    * @param {function} callback
    * @param {object} controllers
+   * @param {string} root
    *
    * @return {OpenAPIBackend}
    */
@@ -110,9 +112,10 @@ class ApiRoutes {
     Backend,
     logger,
     callback,
-    controllers
+    controllers,
+    root
   }) {
-    const apiRoutes = new ApiRoutes(specification, Backend, callback);
+    const apiRoutes = new ApiRoutes(specification, Backend, callback, root);
     apiRoutes.setControllers(controllers);
 
     if (logger) {
