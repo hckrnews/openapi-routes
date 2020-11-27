@@ -29,7 +29,7 @@
       }
 
       get operations() {
-        return ['get', 'put', 'post', 'delete'];
+        return ['get', 'put', 'patch', 'post', 'delete'];
       }
       /**
        * Set the logger.
