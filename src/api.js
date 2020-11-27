@@ -23,6 +23,10 @@ class ApiRoutes {
         });
     }
 
+    get operations() {
+        return ['get', 'put', 'post', 'delete'];
+    }
+
     /**
      * Set the logger.
      *
@@ -52,15 +56,10 @@ class ApiRoutes {
      */
     get operationIds() {
         return Object.values(this.specification.paths).map((path) => {
-            if (path.get) {
-                return path.get.operationId;
-            }
-
-            if (path.post) {
-                return path.post.operationId;
-            }
-
-            return null;
+            const route = Object.entries(path).find(([operation, data]) =>
+                this.operations.includes(operation) ? data.operationId : null
+            );
+            return route[1]?.operationId;
         });
     }
 

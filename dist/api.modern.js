@@ -22,6 +22,10 @@ class ApiRoutes {
       definition: OpenAPISpecification
     });
   }
+
+  get operations() {
+    return ['get', 'put', 'post', 'delete'];
+  }
   /**
    * Set the logger.
    *
@@ -55,15 +59,10 @@ class ApiRoutes {
 
   get operationIds() {
     return Object.values(this.specification.paths).map(path => {
-      if (path.get) {
-        return path.get.operationId;
-      }
+      var _route$;
 
-      if (path.post) {
-        return path.post.operationId;
-      }
-
-      return null;
+      const route = Object.entries(path).find(([operation, data]) => this.operations.includes(operation) ? data.operationId : null);
+      return (_route$ = route[1]) == null ? void 0 : _route$.operationId;
     });
   }
   /**
