@@ -1,20 +1,22 @@
 module.exports = {
-    moduleFileExtensions: ['js', 'jsx', 'json'],
+  moduleFileExtensions: ['js', 'cjs', 'mjs', 'jsx', 'json'],
 
-    transform: {
-        '^.+\\.js?$': 'babel-jest',
-    },
+  transform: {
+    '^.+\\.js?$': 'babel-jest',
+    '^.+\\.cjs?$': 'babel-jest',
+    '^.+\\.mjs?$': 'babel-jest'
+  },
 
-    transformIgnorePatterns: ['/node_modules/'],
+  transformIgnorePatterns: ['/node_modules/'],
 
-    moduleNameMapper: {
-        '^@/(.*)$': '<rootDir>/src/$1',
-    },
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  },
 
-    testMatch: ['**/__tests__/*.js'],
+  testMatch: ['**/__tests__/*.js'],
 
-    testURL: 'http://localhost/',
+  testURL: 'http://localhost/',
 
-    collectCoverage: true,
-    collectCoverageFrom: ['src/**/*.js'],
-};
+  collectCoverage: true,
+  collectCoverageFrom: ['src/**/*.js', 'src/**/*.cjs', 'src/**/*.mjs']
+}
