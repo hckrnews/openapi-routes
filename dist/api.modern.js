@@ -3,13 +3,13 @@
  */
 class ApiRoutes {
   /**
-   * Set the specification.
-   *
-   * @param {object} OpenAPISpecification
-   * @param {class} Backend
-   * @param {function} callback
-   * @param {string} root
-   */
+     * Set the specification.
+     *
+     * @param {object} OpenAPISpecification
+     * @param {class} Backend
+     * @param {function} callback
+     * @param {string} root
+     */
   constructor(OpenAPISpecification, Backend, callback, root) {
     this.logger = null;
     this.specification = OpenAPISpecification;
@@ -27,20 +27,20 @@ class ApiRoutes {
     return ['get', 'put', 'patch', 'post', 'delete'];
   }
   /**
-   * Set the logger.
-   *
-   * @param {class} logger
-   */
+     * Set the logger.
+     *
+     * @param {class} logger
+     */
 
 
   setLogger(logger) {
     this.logger = logger;
   }
   /**
-   * Set the controllers.
-   *
-   * @param {object} controllers
-   */
+     * Set the controllers.
+     *
+     * @param {object} controllers
+     */
 
 
   setControllers(controllers) {
@@ -51,10 +51,10 @@ class ApiRoutes {
     this.controllers = controllers;
   }
   /**
-   * Get all operation ID's from the specification.
-   *
-   * @return {array}
-   */
+     * Get all operation ID's from the specification.
+     *
+     * @return {array}
+     */
 
 
   get operationIds() {
@@ -66,8 +66,8 @@ class ApiRoutes {
     });
   }
   /**
-   * Register all operations to a controller.
-   */
+     * Register all operations to a controller.
+     */
 
 
   register() {
@@ -95,18 +95,18 @@ class ApiRoutes {
     this.api.registerSecurityHandler('apiKey', context => context.request.headers['x-api-key'] === secret);
   }
   /**
-   * Create the API routes from a specification.
-   *
-   * @param {object} specification
-   * @param {string} secret
-   * @param {class} Backend
-   * @param {class} logger
-   * @param {function} callback
-   * @param {object} controllers
-   * @param {string} root
-   *
-   * @return {OpenAPIBackend}
-   */
+     * Create the API routes from a specification.
+     *
+     * @param {object} specification
+     * @param {string} secret
+     * @param {class} Backend
+     * @param {class} logger
+     * @param {function} callback
+     * @param {object} controllers
+     * @param {string} root
+     *
+     * @return {OpenAPIBackend}
+     */
 
 
   static create({
