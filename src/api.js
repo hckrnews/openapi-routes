@@ -3,13 +3,13 @@
  */
 class ApiRoutes {
   /**
-     * Set the specification.
-     *
-     * @param {object} OpenAPISpecification
-     * @param {class} Backend
-     * @param {function} callback
-     * @param {string} root
-     */
+   * Set the specification.
+   *
+   * @param {object} OpenAPISpecification
+   * @param {class} Backend
+   * @param {function} callback
+   * @param {string} root
+   */
   constructor (OpenAPISpecification, Backend, callback, root) {
     this.logger = null
     this.specification = OpenAPISpecification
