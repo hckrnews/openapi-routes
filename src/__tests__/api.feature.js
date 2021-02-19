@@ -19,6 +19,7 @@ describe('API route without security', () => {
     expect(actual.routes.map((route) => route.operationId)).toEqual([
       'getStatus',
       'getTest',
+      'postTest2',
       'postTest',
       'notFound'
     ])
@@ -46,6 +47,7 @@ describe('API route with security', () => {
       'unauthorizedHandler',
       'getStatus',
       'getTest',
+      'postTest2',
       'postTest',
       'notFound'
     ])

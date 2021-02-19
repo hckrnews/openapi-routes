@@ -1,192 +1,53 @@
 {
-    "openapi": "3.0.3",
-    "info": {
-      "title": "Test API",
-      "version": "1.0.0",
-      "contact": {
-        "email": "devops@pon.com"
-      }
-    },
-    "servers": [
-      {
-        "url": "/v1"
-      }
-    ],
-    "paths": {
-      "/status": {
-        "get": {
-          "tags": [
-            "Diagnostics & Monitoring"
-          ],
-          "operationId": "getStatus",
-          "responses": {
-            "200": {
-              "description": "Status of the API",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/statusResponse"
-                  },
-                  "example": {
-                    "status": true,
-                    "version": "1.0.0",
-                    "timestamp": "1970-01-01T01:01:01.000Z",
-                    "message": "ok"
-                  }
-                }
-              }
-            },
-            "503": {
-              "description": "Status of the API",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/statusResponse"
-                  },
-                  "example": {
-                    "status": false,
-                    "version": "1.0.0",
-                    "timestamp": "1970-01-01T01:01:01.000Z",
-                    "message": "Backend unreachable!"
-                  }
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Test API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "devops@pon.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "/v1"
+    }
+  ],
+  "paths": {
+    "/status": {
+      "get": {
+        "tags": [
+          "Diagnostics & Monitoring"
+        ],
+        "operationId": "getStatus",
+        "responses": {
+          "200": {
+            "description": "Status of the API",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/statusResponse"
+                },
+                "example": {
+                  "status": true,
+                  "version": "1.0.0",
+                  "timestamp": "1970-01-01T01:01:01.000Z",
+                  "message": "ok"
                 }
               }
             }
-          }
-        }
-      },
-      "/get-test/{item}": {
-        "get": {
-          "tags": [
-            "Test"
-          ],
-          "operationId": "getTest",
-          "summary": "Get the test",
-          "description": "The endpoint retrieves the current test by the given item.\n",
-          "parameters": [
-            {
-              "name": "item",
-              "description": "the specific test",
-              "in": "path",
-              "schema": {
-                "type": "string",
-                "example": "first"
-              },
-              "required": true
-            }
-          ],
-          "security": [
-            {
-              "apiKey": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "the test response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/test"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "the test response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/genericResponse"
-                  },
-                  "example": {
-                    "status": 401,
-                    "timestamp": "1970-01-01T01:01:01.000Z",
-                    "message": "Unauthorized"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "the test response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/genericResponse"
-                  },
-                  "example": {
-                    "status": 404,
-                    "timestamp": "1970-01-01T01:01:01.000Z",
-                    "message": "Test not found."
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/post-test/{item}": {
-        "post": {
-          "tags": [
-            "Test"
-          ],
-          "operationId": "postTest",
-          "summary": "Post the test",
-          "description": "The endpoint retrieves the current test by the given item.\n",
-          "parameters": [
-            {
-              "name": "item",
-              "description": "the specific test",
-              "in": "path",
-              "schema": {
-                "type": "string",
-                "example": "first"
-              },
-              "required": true
-            }
-          ],
-          "security": [
-            {
-              "apiKey": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "the test response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/test"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "the test response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/genericResponse"
-                  },
-                  "example": {
-                    "status": 401,
-                    "timestamp": "1970-01-01T01:01:01.000Z",
-                    "message": "Unauthorized"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "the test response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/genericResponse"
-                  },
-                  "example": {
-                    "status": 404,
-                    "timestamp": "1970-01-01T01:01:01.000Z",
-                    "message": "Test not found."
-                  }
+          },
+          "503": {
+            "description": "Status of the API",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/statusResponse"
+                },
+                "example": {
+                  "status": false,
+                  "version": "1.0.0",
+                  "timestamp": "1970-01-01T01:01:01.000Z",
+                  "message": "Backend unreachable!"
                 }
               }
             }
@@ -194,85 +55,291 @@
         }
       }
     },
-    "components": {
-      "schemas": {
-        "test": {
-          "description": "The test response object",
-          "type": "object",
-          "required": [
-            "item"
-          ],
-          "properties": {
-            "name": {
+    "/get-test/{item}": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "operationId": "getTest",
+        "summary": "Get the test",
+        "description": "The endpoint retrieves the current test by the given item.\n",
+        "parameters": [
+          {
+            "name": "item",
+            "description": "the specific test",
+            "in": "path",
+            "schema": {
               "type": "string",
-              "example": "42x"
+              "example": "first"
             },
-            "id": {
-              "type": "number",
-              "description": "Test id",
-              "example": 20,
-              "minimum": 1
-            }
+            "required": true
           }
-        },
-        "statusResponse": {
-          "description": "The status response",
-          "type": "object",
-          "required": [
-            "status",
-            "timestamp",
-            "version"
-          ],
-          "properties": {
-            "status": {
-              "type": "boolean",
-              "example": false
-            },
-            "version": {
-              "type": "string",
-              "pattern": "^\\d+(\\.\\d+){0,2}$",
-              "example": "1.0.0"
-            },
-            "timestamp": {
-              "type": "string",
-              "example": "1970-01-01T01:01:01.000Z"
-            },
-            "message": {
-              "type": "string",
-              "example": "Something is wrong"
-            }
+        ],
+        "security": [
+          {
+            "apiKey": []
           }
-        },
-        "genericResponse": {
-          "description": "The generic API response, send in case of errors or simple confirmations",
-          "type": "object",
-          "required": [
-            "status",
-            "timestamp",
-            "message"
-          ],
-          "properties": {
-            "status": {
-              "type": "integer",
-              "example": 503
-            },
-            "timestamp": {
-              "type": "string",
-              "example": "1970-01-01T01:01:01.000Z"
-            },
-            "message": {
-              "type": "string",
-              "example": "server error"
+        ],
+        "responses": {
+          "200": {
+            "description": "the test response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/test"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "the test response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genericResponse"
+                },
+                "example": {
+                  "status": 401,
+                  "timestamp": "1970-01-01T01:01:01.000Z",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "the test response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genericResponse"
+                },
+                "example": {
+                  "status": 404,
+                  "timestamp": "1970-01-01T01:01:01.000Z",
+                  "message": "Test not found."
+                }
+              }
             }
           }
         }
       },
-      "securitySchemes": {
-        "apiKey": {
-          "type": "apiKey",
-          "in": "header",
-          "name": "x-api-key"
+      "post": {
+        "tags": [
+          "Test"
+        ],
+        "operationId": "postTest2",
+        "summary": "Post the test",
+        "description": "The endpoint retrieves the current test by the given item.\n",
+        "parameters": [
+          {
+            "name": "item",
+            "description": "the specific test",
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "example": "first"
+            },
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the test response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/test"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "the test response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genericResponse"
+                },
+                "example": {
+                  "status": 401,
+                  "timestamp": "1970-01-01T01:01:01.000Z",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "the test response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genericResponse"
+                },
+                "example": {
+                  "status": 404,
+                  "timestamp": "1970-01-01T01:01:01.000Z",
+                  "message": "Test not found."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post-test/{item}": {
+      "post": {
+        "tags": [
+          "Test"
+        ],
+        "operationId": "postTest",
+        "summary": "Post the test",
+        "description": "The endpoint retrieves the current test by the given item.\n",
+        "parameters": [
+          {
+            "name": "item",
+            "description": "the specific test",
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "example": "first"
+            },
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the test response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/test"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "the test response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genericResponse"
+                },
+                "example": {
+                  "status": 401,
+                  "timestamp": "1970-01-01T01:01:01.000Z",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "the test response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genericResponse"
+                },
+                "example": {
+                  "status": 404,
+                  "timestamp": "1970-01-01T01:01:01.000Z",
+                  "message": "Test not found."
+                }
+              }
+            }
+          }
         }
       }
     }
+  },
+  "components": {
+    "schemas": {
+      "test": {
+        "description": "The test response object",
+        "type": "object",
+        "required": [
+          "item"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "42x"
+          },
+          "id": {
+            "type": "number",
+            "description": "Test id",
+            "example": 20,
+            "minimum": 1
+          }
+        }
+      },
+      "statusResponse": {
+        "description": "The status response",
+        "type": "object",
+        "required": [
+          "status",
+          "timestamp",
+          "version"
+        ],
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": false
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d+){0,2}$",
+            "example": "1.0.0"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "1970-01-01T01:01:01.000Z"
+          },
+          "message": {
+            "type": "string",
+            "example": "Something is wrong"
+          }
+        }
+      },
+      "genericResponse": {
+        "description": "The generic API response, send in case of errors or simple confirmations",
+        "type": "object",
+        "required": [
+          "status",
+          "timestamp",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 503
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "1970-01-01T01:01:01.000Z"
+          },
+          "message": {
+            "type": "string",
+            "example": "server error"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    }
   }
+}
