@@ -52,6 +52,7 @@ class ApiRoutes {
   }
   /**
      * Get all operation ID's from the specification.
+     * @todo: allow multipleoperation methods per path (e.g. get and post)
      *
      * @return {array}
      */
@@ -59,11 +60,8 @@ class ApiRoutes {
 
   get operationIds() {
     return Object.values(this.specification.paths).map(path => {
-      var _route$;
-
-      const route = Object.entries(path).find(([operation, data]) => this.operations.includes(operation) ? data.operationId : null);
-      return (_route$ = route[1]) == null ? void 0 : _route$.operationId;
-    });
+      return Object.entries(path).map(([operation, data]) => this.operations.includes(operation) ? data.operationId : null);
+    }).flat();
   }
   /**
      * Register all operations to a controller.

@@ -51,16 +51,16 @@ class ApiRoutes {
 
   /**
      * Get all operation ID's from the specification.
+     * @todo: allow multipleoperation methods per path (e.g. get and post)
      *
      * @return {array}
      */
   get operationIds () {
     return Object.values(this.specification.paths).map((path) => {
-      const route = Object.entries(path).find(([operation, data]) =>
+      return Object.entries(path).map(([operation, data]) =>
         this.operations.includes(operation) ? data.operationId : null
       )
-      return route[1]?.operationId
-    })
+    }).flat()
   }
 
   /**
