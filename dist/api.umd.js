@@ -21,9 +21,7 @@
       this.callback = callback;
       this.controllers = {};
       this.api = new Backend({
-        // Use the first server url as api root.
-        // @todo CDB2BGAZ-3755: Support multiple servers
-        apiRoot: root || OpenAPISpecification.servers[0].url,
+        apiRoot: root || '/',
         definition: OpenAPISpecification
       });
     }
