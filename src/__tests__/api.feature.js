@@ -5,7 +5,7 @@ import callback from '../__mocks__/callback'
 import controllers from '../__mocks__/controller'
 
 describe('API route without security', () => {
-  const actual = ApiRoutes.create({
+  const { api: actual } = ApiRoutes.create({
     specification: OpenAPISpecification,
     Backend,
     controllers,
@@ -31,12 +31,14 @@ describe('API route without security', () => {
 })
 
 describe('API route with security', () => {
-  const actual = ApiRoutes.create({
+  const { api: actual, logger } = ApiRoutes.create({
     specification: OpenAPISpecification,
     secret: 'secret',
     Backend,
     controllers,
-    callback
+    callback,
+    root: '/test',
+    logger: () => 42
   })
   it('Test if the return value is a instance of the backend', () => {
     expect(actual instanceof Backend).toBeTruthy()
@@ -55,5 +57,31 @@ describe('API route with security', () => {
 
   it('Test if the API security is set', () => {
     expect(actual.security.map((route) => route.name)).toEqual(['apiKey'])
+  })
+
+  it('Test if the API root is set', () => {
+    expect(actual.apiRoot).toBe('/test')
+  })
+
+  it('Test if the API root is set', () => {
+    expect(actual.apiRoot).toBe('/test')
+  })
+
+  it('Test if the logger is set', () => {
+    expect(logger()).toBe(42)
+  })
+
+  it('It should throw an error if there are no controllers set', () => {
+    expect(() => {
+      ApiRoutes.create({
+        specification: OpenAPISpecification,
+        secret: 'secret',
+        Backend,
+        controllers: null,
+        callback,
+        root: '/test',
+        logger: () => 42
+      })
+    }).toThrowError('No valid controllers found')
   })
 })

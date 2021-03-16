@@ -101,7 +101,7 @@ class ApiRoutes {
      * @param {object} controllers
      * @param {string} root
      *
-     * @return {OpenAPIBackend}
+     * @return {ApiRoutes}
      */
 
 
@@ -126,7 +126,7 @@ class ApiRoutes {
     }
 
     apiRoutes.register();
-    return apiRoutes.api;
+    return apiRoutes;
   }
 
 }

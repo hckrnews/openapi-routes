@@ -117,7 +117,7 @@ class ApiRoutes {
      * @param {object} controllers
      * @param {string} root
      *
-     * @return {OpenAPIBackend}
+     * @return {ApiRoutes}
      */
   static create ({
     specification,
@@ -141,7 +141,7 @@ class ApiRoutes {
 
     apiRoutes.register()
 
-    return apiRoutes.api
+    return apiRoutes
   }
 }
 

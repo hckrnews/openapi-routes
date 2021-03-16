@@ -102,7 +102,7 @@
        * @param {object} controllers
        * @param {string} root
        *
-       * @return {OpenAPIBackend}
+       * @return {ApiRoutes}
        */
 
 
@@ -127,7 +127,7 @@
       }
 
       apiRoutes.register();
-      return apiRoutes.api;
+      return apiRoutes;
     }
 
   }
