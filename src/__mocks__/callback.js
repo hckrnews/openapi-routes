@@ -1,7 +1,7 @@
-export default function makeCallback (controller, specification) {
+export default function makeCallback ({ controller, specification }) {
   return async (context, req, res) => {
     try {
-      const response = await controller(context, specification)
+      const response = await controller({ context, specification })
 
       res.type('json')
       res.status(200).send(response)
