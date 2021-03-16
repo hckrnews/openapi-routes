@@ -18,7 +18,10 @@ const { api: apiRoutes } = ApiRoutes.create({
   logger,
   controllers,
   callback: makeExpressCallback,
-  root: '/'
+  root: '/',
+  meta: {
+    example: 'test'
+  }
 })
 
 const router = express.Router()
