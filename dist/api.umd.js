@@ -14,12 +14,14 @@
      * @param {class} Backend
      * @param {function} callback
      * @param {string} root
+     * @param {mixed} meta
      */
-    constructor(OpenAPISpecification, Backend, callback, root) {
+    constructor(OpenAPISpecification, Backend, callback, root, meta) {
       this.logger = null;
       this.specification = OpenAPISpecification;
       this.callback = callback;
       this.controllers = {};
+      this.meta = meta || {};
       this.api = new Backend({
         apiRoot: root || '/',
         definition: OpenAPISpecification
@@ -73,11 +75,21 @@
 
     register() {
       this.operationIds.forEach(operationId => {
-        this.api.register(operationId, this.callback(this.controllers[operationId], this.specification, this.logger));
+        this.api.register(operationId, this.callback({
+          controller: this.controllers[operationId],
+          specification: this.specification,
+          logger: this.logger,
+          meta: this.meta
+        }));
       });
 
       if (this.controllers?.notFound) {
-        this.api.register('notFound', this.callback(this.controllers.notFound, this.specification, this.logger));
+        this.api.register('notFound', this.callback({
+          controller: this.controllers.notFound,
+          specification: this.specification,
+          logger: this.logger,
+          meta: this.meta
+        }));
       }
 
       this.api.init();
@@ -101,6 +113,7 @@
        * @param {function} callback
        * @param {object} controllers
        * @param {string} root
+       * @param {mixed} meta
        *
        * @return {ApiRoutes}
        */
@@ -113,9 +126,10 @@
       logger,
       callback,
       controllers,
-      root
+      root,
+      meta
     }) {
-      const apiRoutes = new ApiRoutes(specification, Backend, callback, root);
+      const apiRoutes = new ApiRoutes(specification, Backend, callback, root, meta);
       apiRoutes.setControllers(controllers);
 
       if (logger) {
