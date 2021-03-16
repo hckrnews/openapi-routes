@@ -1,5 +1,7 @@
 export default class Backend {
-  constructor () {
+  constructor ({ apiRoot, definition }) {
+    this.apiRoot = apiRoot
+    this.definition = definition
     this.routes = []
     this.security = []
   }

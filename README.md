@@ -11,7 +11,7 @@ import { makeExpressCallback } from '@hckrnews/express-callback'
 
 const logger = stackdriver()
 
-const apiRoutes = ApiRoutes.create({
+const { api: apiRoutes } = ApiRoutes.create({
   specification,
   secret: 'exampleSecret,
   Backend: OpenAPIBackend,

@@ -16,9 +16,7 @@ class ApiRoutes {
     this.callback = callback;
     this.controllers = {};
     this.api = new Backend({
-      // Use the first server url as api root.
-      // @todo CDB2BGAZ-3755: Support multiple servers
-      apiRoot: root || OpenAPISpecification.servers[0].url,
+      apiRoot: root || '/',
       definition: OpenAPISpecification
     });
   }
@@ -103,7 +101,7 @@ class ApiRoutes {
      * @param {object} controllers
      * @param {string} root
      *
-     * @return {OpenAPIBackend}
+     * @return {ApiRoutes}
      */
 
 
@@ -128,7 +126,7 @@ class ApiRoutes {
     }
 
     apiRoutes.register();
-    return apiRoutes.api;
+    return apiRoutes;
   }
 
 }

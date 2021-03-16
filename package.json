@@ -1,6 +1,6 @@
 {
   "name": "@ponbike/openapi-routes",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "OpenAPI routes",
   "files": [
     "src/api.js",
@@ -58,23 +58,14 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@hckrnews/eslint-config": "^1.0.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "codecov": "^3.8.1",
     "coveralls": "^3.1.0",
-    "eslint": "^7.18.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-html": "^6.1.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.22.0",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint": "^7.22.0",
     "esm": "^3.2.25",
     "jest": "^26.6.3",
-    "microbundle": "^0.12.3",
+    "microbundle": "^0.13.0",
     "prettier": "^2.2.1",
     "standard": "^16.0.3"
   },
