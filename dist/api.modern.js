@@ -112,6 +112,7 @@ class ApiRoutes {
      * @param {function} callback
      * @param {object} controllers
      * @param {string} root
+     * @param {mixed} meta
      *
      * @return {ApiRoutes}
      */
