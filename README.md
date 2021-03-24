@@ -21,7 +21,9 @@ const { api: apiRoutes } = ApiRoutes.create({
   root: '/',
   meta: {
     example: 'test'
-  }
+  },
+  requestValidation: true,
+  responseValidation: true
 })
 
 const router = express.Router()
