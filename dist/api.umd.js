@@ -74,6 +74,8 @@
 
 
     register() {
+      var _this$controllers;
+
       this.operationIds.forEach(operationId => {
         this.api.register(operationId, this.callback({
           controller: this.controllers[operationId],
@@ -83,7 +85,7 @@
         }));
       });
 
-      if (this.controllers?.notFound) {
+      if ((_this$controllers = this.controllers) != null && _this$controllers.notFound) {
         this.api.register('notFound', this.callback({
           controller: this.controllers.notFound,
           specification: this.specification,
@@ -103,6 +105,43 @@
       }));
       this.api.registerSecurityHandler('apiKey', context => context.request.headers['x-api-key'] === secret);
     }
+
+    requestValidation() {
+      this.api.register('validationFail', (context, request, response) => response.status(400).json({
+        status: 400,
+        timestamp: new Date(),
+        message: context.validation.errors
+      }));
+    }
+
+    responseValidation() {
+      this.api.register('postResponseHandler', (context, request, response) => {
+        const validResponse = context.api.validateResponse(context.response, context.operation);
+
+        if (validResponse.errors) {
+          return response.status(502).json({
+            status: 502,
+            timestamp: new Date(),
+            message: validResponse.errors
+          });
+        }
+
+        const validHeaders = context.api.validateResponseHeaders(response.headers, context.operation, {
+          statusCode: response.statusCode,
+          setMatchType: 'exact'
+        });
+
+        if (validHeaders.errors) {
+          return response.status(502).json({
+            status: 502,
+            timestamp: new Date(),
+            message: validHeaders.errors
+          });
+        }
+
+        return response.status(200).json(context.response);
+      });
+    }
     /**
        * Create the API routes from a specification.
        *
@@ -114,6 +153,8 @@
        * @param {object} controllers
        * @param {string} root
        * @param {mixed} meta
+       * @param {boolean} requestValidation
+       * @param {boolean} responseValidation
        *
        * @return {ApiRoutes}
        */
@@ -127,8 +168,10 @@
       callback,
       controllers,
       root,
-      meta
-    }) {
+      meta,
+      requestValidation = false,
+      responseValidation = false
+    } = {}) {
       const apiRoutes = new ApiRoutes(specification, Backend, callback, root, meta);
       apiRoutes.setControllers(controllers);
 
@@ -138,6 +181,14 @@
 
       if (secret) {
         apiRoutes.authentication(secret);
+      }
+
+      if (requestValidation) {
+        apiRoutes.requestValidation();
+      }
+
+      if (responseValidation) {
+        apiRoutes.responseValidation();
       }
 
       apiRoutes.register();
