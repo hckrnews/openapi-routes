@@ -1,28 +1,38 @@
+import addFormats from 'ajv-formats'
+
 /**
- * @typedef {import('openapi-backend').OpenAPIBackend} OpenAPIBackend
  * Auto register API routes from the OpenAPI specification.
  */
 class ApiRoutes {
   /**
    * Set the specification.
    * @param {object} OpenAPISpecification
-   * @param {object} Backend
+   * @param {Function} Backend
    * @param {Function} callback
-   * @param {string} root
+   * @param {string=} root
+   * @param {object=} meta
    */
-  constructor (OpenAPISpecification, Backend, callback, root) {
+  constructor (OpenAPISpecification, Backend, callback, root, meta) {
     this.logger = null
+    this.errorLogger = null
     this.specification = OpenAPISpecification
     this.callback = callback
     this.controllers = {}
+    this.meta = meta || {}
     this.api = new Backend({
-      // Use the first server url as api root.
-      // @todo CDB2BGAZ-3755: Support multiple servers
-      apiRoot: root || OpenAPISpecification.servers[0].url,
-      definition: OpenAPISpecification
+      apiRoot: root || '/',
+      definition: OpenAPISpecification,
+      customizeAjv: (originalAjv) => {
+        addFormats(originalAjv)
+        return originalAjv
+      }
     })
   }
 
+  /**
+   * Get akl operations
+   * @returns {Array}
+   */
   get operations () {
     return ['get', 'put', 'patch', 'post', 'delete']
   }
@@ -33,6 +43,14 @@ class ApiRoutes {
    */
   setLogger (logger) {
     this.logger = logger
+  }
+
+  /**
+   * Set the error logger.
+   * @param {object} logger
+   */
+  setErrorLogger (logger) {
+    this.errorLogger = logger
   }
 
   /**
@@ -49,15 +67,15 @@ class ApiRoutes {
 
   /**
    * Get all operation ID's from the specification.
-   * @returns {Array}
+   * @returns {string[]}
    */
   get operationIds () {
-    return Object.values(this.specification.paths).map((path) => {
-      const route = Object.entries(path).find(([operation, data]) =>
-        this.operations.includes(operation) ? data.operationId : null
-      )
-      return route[1]?.operationId
-    })
+    return Object.values(this.specification.paths)
+      .map((path) => Object.entries(path)
+        .map(([operation, data]) => this.operations.includes(operation)
+          ? data.operationId
+          : null))
+      .flat()
   }
 
   /**
@@ -67,37 +85,44 @@ class ApiRoutes {
     this.operationIds.forEach((operationId) => {
       this.api.register(
         operationId,
-        this.callback(
-          this.controllers[operationId],
-          this.specification,
-          this.logger
-        )
+        this.callback({
+          controller: this.controllers[operationId],
+          specification: this.specification,
+          logger: this.logger,
+          errorLogger: this.errorLogger,
+          meta: this.meta
+        })
       )
     })
 
     if (this.controllers?.notFound) {
       this.api.register(
         'notFound',
-        this.callback(
-          this.controllers.notFound,
-          this.specification,
-          this.logger
-        )
+        this.callback({
+          controller: this.controllers.notFound,
+          specification: this.specification,
+          logger: this.logger,
+          errorLogger: this.errorLogger,
+          meta: this.meta
+        })
       )
     }
 
     this.api.init()
   }
 
+  /**
+   * Set the authentication
+   * @param {string} secret
+   */
   authentication (secret) {
     this.api.register(
       'unauthorizedHandler',
-      async (context, request, response) =>
-        response.status(401).json({
-          status: 401,
-          timestamp: new Date(),
-          message: 'Unauthorized'
-        })
+      async (_context, _request, response) => response.status(401).json({
+        status: 401,
+        timestamp: new Date(),
+        message: 'Unauthorized'
+      })
     )
     this.api.registerSecurityHandler(
       'apiKey',
@@ -106,40 +131,109 @@ class ApiRoutes {
   }
 
   /**
+   * Add the request validation to the API routes.
+   */
+  requestValidation () {
+    this.api.register(
+      'validationFail',
+      (context, _request, response) => response.status(400).json({
+        status: 400,
+        timestamp: new Date(),
+        message: context.validation.errors
+      })
+    )
+  }
+
+  /**
+   * Add the response validation to the API routes.
+   */
+  responseValidation () {
+    this.api.register(
+      'postResponseHandler',
+      (context, _request, response) => {
+        const validResponse = context.api.validateResponse(context.response, context.operation)
+
+        if (validResponse.errors) {
+          return response.status(502).json({
+            status: 502,
+            timestamp: new Date(),
+            message: validResponse.errors
+          })
+        }
+
+        const validHeaders = context.api.validateResponseHeaders(response.headers, context.operation, {
+          statusCode: response.statusCode,
+          setMatchType: 'exact'
+        })
+
+        if (validHeaders.errors) {
+          return response.status(502).json({
+            status: 502,
+            timestamp: new Date(),
+            message: validHeaders.errors
+          })
+        }
+
+        return response.status(200).send(context.response)
+      }
+    )
+  }
+
+  /**
    * Create the API routes from a specification.
-   * @param {object} params
-   * @param {object?} params.specification
-   * @param {string?} params.secret
-   * @param {object?} params.Backend
-   * @param {object?} params.logger
-   * @param {Function?} params.callback
-   * @param {object?} params.controllers
-   * @param {string?} params.root
-   * @returns {OpenAPIBackend}
+   * @param {object} data
+   * @param {object} data.specification
+   * @param {string=} data.secret
+   * @param {Function} data.Backend
+   * @param {object=} data.logger
+   * @param {object=} data.errorLogger
+   * @param {Function} data.callback
+   * @param {object} data.controllers
+   * @param {string=} data.root
+   * @param {any=} data.meta
+   * @param {boolean=} data.requestValidation
+   * @param {boolean=} data.responseValidation
+   * @returns {ApiRoutes}
    */
   static create ({
     specification,
     secret,
     Backend,
     logger,
+    errorLogger,
     callback,
     controllers,
-    root
+    root,
+    meta,
+    requestValidation = false,
+    responseValidation = false
   }) {
-    const apiRoutes = new ApiRoutes(specification, Backend, callback, root)
+    const apiRoutes = new ApiRoutes(specification, Backend, callback, root, meta)
 
     apiRoutes.setControllers(controllers)
     if (logger) {
       apiRoutes.setLogger(logger)
     }
 
+    if (errorLogger) {
+      apiRoutes.setErrorLogger(errorLogger)
+    }
+
     if (secret) {
       apiRoutes.authentication(secret)
     }
 
+    if (requestValidation) {
+      apiRoutes.requestValidation()
+    }
+
+    if (responseValidation) {
+      apiRoutes.responseValidation()
+    }
+
     apiRoutes.register()
 
-    return apiRoutes.api
+    return apiRoutes
   }
 }
 
