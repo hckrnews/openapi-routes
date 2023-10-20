@@ -1,30 +1,14 @@
 {
     "name": "@hckrnews/openapi-routes",
-    "version": "1.2.1",
+    "version": "1.3.0",
     "description": "OpenAPI routes",
     "files": [
-        "src/api.js",
-        "dist/api.js",
-        "dist/api.js.map",
-        "dist/api.module.js",
-        "dist/api.module.js.map",
-        "dist/api.modern.js",
-        "dist/api.modern.js.map",
-        "dist/api.umd.js",
-        "dist/api.umd.js.map"
+        "src/api.js"
     ],
     "source": "src/api.js",
-    "main": "dist/api.js",
-    "module": "dist/api.module.js",
-    "esmodule": "dist/api.modern.js",
-    "unpkg": "dist/api.umd.js",
-    "umd:main": "dist/api.umd.js",
-    "exports": {
-        ".": {
-            "require": "./dist/api.js",
-            "default": "./dist/api.module.js"
-        }
-    },
+    "main": "src/api.js",
+    "module": "src/api.js",
+    "esmodule": "src/api.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/hckrnews/openapi-routes.git"
@@ -47,36 +31,48 @@
     "license": "MIT",
     "homepage": "https://github.com/hckrnews/openapi-routes#readme",
     "scripts": {
-        "build": "microbundle --target node",
-        "dev": "microbundle --target node watch",
         "lint": "eslint src/*.js --config .eslintrc",
+        "lint:report": "eslint src/*.js --config .eslintrc -f json -o report.json",
+        "lint:fix": "eslint src/*.js --config .eslintrc --fix",
         "test": "jest",
-        "coveralls": "jest && codecov && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+        "test:watch": "jest src --watch",
+        "cpd": "node_modules/jscpd/bin/jscpd src",
+        "vulnerabilities": "npm audit --only=prod"
     },
     "devDependencies": {
         "@babel/core": "^7.12.9",
+        "@babel/plugin-syntax-import-assertions": "^7.22.5",
+        "@babel/plugin-transform-modules-commonjs": "^7.23.0",
         "@babel/preset-env": "^7.12.7",
-        "@hckrnews/eslint-config": "^1.0.1",
+        "@jest/globals": "^29.7.0",
         "babel-eslint": "^10.1.0",
-        "babel-jest": "^26.6.3",
-        "codecov": "^3.8.1",
-        "coveralls": "^3.1.0",
-        "eslint": "^7.14.0",
-        "eslint-config-airbnb": "^18.2.1",
-        "eslint-config-prettier": "^6.15.0",
-        "eslint-plugin-html": "^6.1.1",
+        "babel-jest": "^29.0.0",
+        "eslint": "^8.0.0",
+        "eslint-config-airbnb": "^19.0.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-config-standard": "^17.1.0",
+        "eslint-plugin-html": "^7.0.0",
         "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-jsdoc": "^46.0.0",
         "eslint-plugin-jsx-a11y": "^6.4.1",
-        "eslint-plugin-prettier": "^3.1.4",
+        "eslint-plugin-n": "^16.0.0",
+        "eslint-plugin-prettier": "^5.0.0",
+        "eslint-plugin-promise": "^6.0.1",
         "eslint-plugin-react": "^7.21.5",
-        "eslint-plugin-vue": "^6.2.2",
+        "eslint-plugin-sonarjs": "^0.21.0",
+        "eslint-plugin-vue": "^9.0.0",
         "esm": "^3.2.25",
-        "jest": "^26.6.3",
-        "microbundle": "^0.12.3",
-        "prettier": "^2.2.0"
+        "jest": "^29.0.0",
+        "jest-junit": "^16.0.0",
+        "jest-sonar-reporter": "^2.0.0",
+        "openapi-backend": "^5.10.5",
+        "prettier": "^3.0.0"
     },
     "type": "module",
     "engines": {
         "node": ">= 10.13"
+    },
+    "dependencies": {
+        "ajv-formats": "^2.1.1"
     }
 }

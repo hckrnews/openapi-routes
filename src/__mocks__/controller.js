@@ -1,4 +1,8 @@
 export default {
-    test() {},
-    notFound() {},
-};
+  test () {
+    return true
+  },
+  notFound () {
+    return true
+  }
+}

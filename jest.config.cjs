@@ -1,20 +1,36 @@
 module.exports = {
-    moduleFileExtensions: ['js', 'jsx', 'json'],
+  moduleFileExtensions: ['js', 'cjs', 'mjs', 'jsx', 'json'],
 
-    transform: {
-        '^.+\\.js?$': 'babel-jest',
-    },
+  transform: {
+    '^.+\\.js?$': 'babel-jest',
+    '^.+\\.mjs?$': 'babel-jest'
+  },
 
-    transformIgnorePatterns: ['/node_modules/'],
+  transformIgnorePatterns: ['node_modules/(?!(@hckrnews|@ponbike|@pondevelopment)/)'],
 
-    moduleNameMapper: {
-        '^@/(.*)$': '<rootDir>/src/$1',
-    },
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  },
 
-    testMatch: ['**/__tests__/*.js'],
+  testMatch: ['**/__tests__/*.js'],
 
-    testURL: 'http://localhost/',
+  collectCoverage: true,
+  collectCoverageFrom: ['src/**/*.js', 'src/**/*.cjs', 'src/**/*.mjs'],
+  coverageThreshold: {
+    global: {
+      branches: 60,
+      functions: 60,
+      lines: 60,
+      statements: 60
+    }
+  },
+  reporters: [
+    'default',
+    ['jest-junit', {
+      outputDirectory: 'test-reports',
+      outputName: 'jest-junit.xml'
+    }]
+  ],
 
-    collectCoverage: true,
-    collectCoverageFrom: ['src/**/*.js'],
-};
+  testResultsProcessor: 'jest-sonar-reporter'
+}
