@@ -70,6 +70,6 @@
         "node": ">= 10.13"
     },
     "dependencies": {
-        "ajv-formats": "^2.1.1"
+        "ajv-formats": "^3.0.0"
     }
 }
