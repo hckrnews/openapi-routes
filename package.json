@@ -62,7 +62,7 @@
         "jest": "^29.0.0",
         "jest-junit": "^16.0.0",
         "jest-sonar-reporter": "^2.0.0",
-        "openapi-backend": "^5.10.5",
+        "openapi-backend": "^5.11.1",
         "prettier": "^3.0.0"
     },
     "type": "module",
